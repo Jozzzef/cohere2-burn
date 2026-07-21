@@ -4,3 +4,10 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+burn = { path = "../docs/burn/crates/burn", version = "=0.22.0-pre.1", default-features = false, optional = true }
+
+[lib]
+# For testing the feedforward layer
+[[lib]]
+name = "cohere2-burn"
+path = "src/main.rs"
