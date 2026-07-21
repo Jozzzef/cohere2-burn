@@ -1,13 +1,11 @@
 [package]
 name = "cohere2-burn"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 
-[dependencies]
-burn = { path = "../docs/burn/crates/burn", version = "=0.22.0-pre.1", default-features = false, optional = true }
+[workspace]
+members = ["docs/burn/crates/burn", "docs/burn/examples/"]
+resolver = "2"
 
-[lib]
-# For testing the feedforward layer
-[[lib]]
-name = "cohere2-burn"
-path = "src/main.rs"
+[workspace.dependencies]
+burn = { path = "docs/burn/crates/burn", version = "0.22.0", default-features = false }
