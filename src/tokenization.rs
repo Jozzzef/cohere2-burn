@@ -1,11 +1,10 @@
 use::burn::{
     module,
-    tensor::Backend,
+    prelude::Backend,
 };
 use tokenizers::{
     models::bpe::{BPE, BpeBuilder, Vocab, Merges},
     normalizers::NFC,
-    pre_tokenizers::{Digits, ByteLevel, PreTokenizerWrapper},
     tokenizer::{Tokenizer, Decoder}
 };
 use serde_json::Value;
@@ -19,6 +18,7 @@ const UNK_TOKEN: &str = "<UNK>";
 
 
 // TOKENIZER =============================
+#[derive(Debug)]
 pub struct TokenizerConfig {
     vocab_and_merges: Option<(String, String)>,
     tokenizer_json: Option<String>,
@@ -36,6 +36,12 @@ impl Default for TokenizerConfig{
             use_default_system_prompt: true, add_bos_token: true, add_eos_token: false,
             add_prefix_space: false
         }   
+    }
+}
+
+impl TokenizerConfig {
+    pub fn change_tokenizer_file(&mut self, new_val: String){
+        self.tokenizer_json = Some(new_val);
     }
 }
 
