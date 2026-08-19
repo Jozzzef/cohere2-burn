@@ -43,6 +43,7 @@ impl Default for TokenizerConfig{
 pub fn tokenizer_builder(config: TokenizerConfig) -> Result<Tokenizer, Box<dyn std::error::Error>> {
 
     let v_and_m: (String, String) = match config.tokenizer_json {
+        // get the vocab and merges extracted out of the tokenizers file
         Some(json_path) => {
             let file = File::open(json_path)?;
             let json_value: Value = serde_json::from_reader(file)?;
@@ -58,6 +59,7 @@ pub fn tokenizer_builder(config: TokenizerConfig) -> Result<Tokenizer, Box<dyn s
 
             (v, m)
         }
+        // read directly from files and load in as a String as well
         None => {
             match config.vocab_and_merges {
                 Some((v_path,m_path)) => { (read_to_string(v_path)?, read_to_string(m_path)?) }
@@ -66,6 +68,7 @@ pub fn tokenizer_builder(config: TokenizerConfig) -> Result<Tokenizer, Box<dyn s
         }
     };
 
+    // these two types are aliases in the tokenizers library, construct them from their original types
     let vocab: Vocab = AHashMap::new();
     let merges: Merges = vec![(String::from(""), String::from(""))];
 
